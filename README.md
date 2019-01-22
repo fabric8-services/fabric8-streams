@@ -61,7 +61,8 @@ oc login $(minishift ip):8443 -u developer -p developer
 oc new-project $YOURPROJECT
 ```
 
-Switch to a user with `cluster-admin` role:
+Switch to an OpenShift user with `cluster-admin` role (e.g. user
+`system:admin`):
 
 ```bash
 # Login as a user with "cluster-admin" role needs to be used,
@@ -74,25 +75,25 @@ oc project $YOURPROJECT
 Deploy the Cluster Operator to OpenShift ([documentation](https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html/using_amq_streams_on_openshift_container_platform/getting-started-str#deploying-cluster-operator-openshift-str)):
 
 ```bash
-sed -i "s/namespace: .*/namespace: $YOURPROJECT/" install/cluster-operator/*RoleBinding*.yaml
-oc apply -f install/cluster-operator -n $YOURPROJECT
+sed -i "s/namespace: .*/namespace: $YOURPROJECT/" cluster-operator/*RoleBinding*.yaml
+oc apply -f cluster-operator -n $YOURPROJECT
 ```
 
-**WARNING:**
-I suggest that you open the OpenShift console (run `minishift
-console`) after applying each file. Then wait until all pods are created for
-that particular deployment.
+**WARNING:** I suggest that you open the OpenShift console (run `minishift
+console`) after applying each file. Use the non-cluster-admin user that owns the
+project. Then wait until all pods are created for that particular deployment.
+The overview is good enough for this.
 
 Create templates to build upon when deploying the Kafka resources
 
 ```bash
-oc apply -f examples/templates/cluster-operator -n $YOURPROJECT
+oc apply -f templates/cluster-operator -n $YOURPROJECT
 ```
 
 Deploy persistent Kafka cluster to OpenShift ([documentation](https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html/using_amq_streams_on_openshift_container_platform/getting-started-str#deploying-kafka-cluster-openshift-str)):
 
 ```bash
-oc apply -f examples/kafka/kafka-persistent.yaml
+oc apply -f kafka/kafka-persistent.yaml
 ```
 
 ### Test deployment so far
