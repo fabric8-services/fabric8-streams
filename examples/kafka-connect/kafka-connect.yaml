@@ -4,8 +4,8 @@ metadata:
   name: my-connect-cluster
 spec:
   replicas: 1
-  bootstrapServers: my-cluster-kafka-bootstrap:9093
+  bootstrapServers: fabric8-streams-cluster-kafka-bootstrap:9093
   tls:
     trustedCertificates:
-      - secretName: my-cluster-cluster-ca-cert
+      - secretName: fabric8-streams-cluster-cluster-ca-cert
         certificate: ca.crt

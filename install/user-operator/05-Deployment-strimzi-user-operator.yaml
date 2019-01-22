@@ -21,13 +21,13 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: STRIMZI_LABELS
-              value: "strimzi.io/cluster=my-cluster"
+              value: "strimzi.io/cluster=fabric8-streams-cluster"
             - name: STRIMZI_CA_NAME
-              value: my-cluster-clients-ca
+              value: fabric8-streams-cluster-clients-ca
             - name: STRIMZI_FULL_RECONCILIATION_INTERVAL_MS
               value: "120000"
             - name: STRIMZI_ZOOKEEPER_CONNECT
-              value: my-cluster-zookeeper-client:2181
+              value: fabric8-streams-cluster-zookeeper-client:2181
             - name: STRIMZI_ZOOKEEPER_SESSION_TIMEOUT_MS
               value: "20000"
             - name: STRIMZI_LOG_LEVEL
