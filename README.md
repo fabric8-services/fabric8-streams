@@ -78,6 +78,11 @@ sed -i "s/namespace: .*/namespace: $YOURPROJECT/" install/cluster-operator/*Role
 oc apply -f install/cluster-operator -n $YOURPROJECT
 ```
 
+**WARNING:**
+I suggest that you open the OpenShift console (run `minishift
+console`) after applying each file. Then wait until all pods are created for
+that particular deployment.
+
 Create templates to build upon when deploying the Kafka resources
 
 ```bash
