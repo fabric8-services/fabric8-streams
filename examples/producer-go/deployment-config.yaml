@@ -1,0 +1,29 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: producer-go
+spec:
+  template:
+    metadata:
+      labels:
+        app: producer-go
+    spec:
+      containers:
+      - name: producer-go
+        image: "producer-go:latest"
+  replicas: 1
+  triggers:
+    - type: "ConfigChange" 
+    - type: "ImageChange" 
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - "producer-go"
+        from:
+          kind: "ImageStreamTag"
+          name: "producer-go:latest"
+  strategy: 
+    type: "Rolling"
+  paused: false 
+  revisionHistoryLimit: 2
+  minReadySeconds: 0

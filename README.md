@@ -79,10 +79,8 @@ sed -i "s/namespace: .*/namespace: $YOURPROJECT/" cluster-operator/*RoleBinding*
 oc apply -f cluster-operator -n $YOURPROJECT
 ```
 
-**WARNING:** I suggest that you open the OpenShift console (run `minishift
-console`) after applying each file. Use the non-cluster-admin user that owns the
-project. Then wait until all pods are created for that particular deployment.
-The overview is good enough for this.
+**WARNING:** I suggest that you run `watch oc get pods -n preview` after each
+`oc apply` to wait until the listed pods have the `STATUS` called `Running`.
 
 Create templates to build upon when deploying the Kafka resources
 
@@ -130,5 +128,47 @@ oc run kafka-consumer \
 ```
 
 If the test was successful, you can close the terminals. 
+
+# Examples in programming languages
+
+## Deploy OpenShift Container Registry
+
+For further testing with custom built images, we [deploy the registry](https://docs.openshift.com/container-platform/3.11/install_config/registry/deploy_registry_existing_clusters.html) using a user with cluster admin priviliges (e.g. `system:admin`):
+
+```bash
+oc login -u system:admin
+oc adm registry --service-account=registry
+```
+
+The created pod uses an ephemeral volume that is destroyed if the pod exits. This perfectly fits our testing puroposes.
+
+We're going to use the docker daemon as it is deployed inside OpenShift and we're loggin into the registry as user `developer`.
+
+```bash
+eval $(minishift docker-env)
+oc login -u developer -p developer
+docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)
+```
+
+Now, we create an image stream for our example go producer, build and then push the image to our OpenShift container registry.
+
+```bash
+oc apply -f examples/producer-go/image-stream.yaml
+docker build \
+    examples/producer-go/ \
+    -t $(minishift openshift registry)/$YOURPROJECT/producer-go:latest
+docker push $(minishift openshift registry)/$YOURPROJECT/producer-go:latest
+```
+
+Next, let's create a deployment config:
+
+```bash
+oc apply -f examples/producer-go/deployment-config.yaml
+```
+
+
+
+
+
 
 ... To be continued ...

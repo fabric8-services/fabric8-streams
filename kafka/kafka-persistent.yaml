@@ -5,6 +5,10 @@ metadata:
 spec:
   kafka:
     replicas: 3
+    # See https://access.redhat.com/documentation/en-us/red_hat_amq/7.2/html/using_amq_streams_on_openshift_container_platform/assembly-deployment-configuration-str#assembly-configuring-kafka-broker-listeners-deployment-configuration-kafka
+    #  AMQ Streams allows users to configure the listeners which will be enabled in Kafka brokers. Two types of listeners are supported:
+    # Plain listener on port 9092 (without encryption)
+    # TLS listener on port 9093 (with encryption) 
     listeners:
       plain: {}
       tls: {}
