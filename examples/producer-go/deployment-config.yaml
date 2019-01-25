@@ -13,6 +13,8 @@ spec:
         image: "producer-go:latest"
   replicas: 1
   triggers:
+    # The ConfigChange trigger creates a new replication controller whenever
+    # changes are detected in the pod template of the deployment configuration.
     - type: "ConfigChange" 
     - type: "ImageChange" 
       imageChangeParams:
@@ -23,7 +25,11 @@ spec:
           kind: "ImageStreamTag"
           name: "producer-go:latest"
   strategy: 
+    # The strategy of deployment is of type rolling, which means that one pod at
+    # a time will be replaced.
     type: "Rolling"
   paused: false 
+  # Up to 2 revisions of the Docker image will be kept in the registry, in case
+  # a rollback would be needed.
   revisionHistoryLimit: 2
   minReadySeconds: 0
