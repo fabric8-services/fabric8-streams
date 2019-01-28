@@ -67,7 +67,7 @@ Switch to an OpenShift user with `cluster-admin` role (e.g. user
 ```bash
 # Login as a user with "cluster-admin" role needs to be used,
 # for example, "system:admin".
-oc login $(minishift ip):8443 -u system:admin
+oc login -u system:admin
 # Choose "yourproject" to run on
 oc project $YOURPROJECT
 ```
@@ -129,11 +129,11 @@ oc run kafka-consumer \
 
 If the test was successful, you can close the terminals. 
 
-# Examples in programming languages
+# Examples for producers and consumers
 
 ## Deploy OpenShift Container Registry
 
-For further testing with custom built images, we [deploy the registry](https://docs.openshift.com/container-platform/3.11/install_config/registry/deploy_registry_existing_clusters.html) using a user with cluster admin priviliges (e.g. `system:admin`):
+For further testing with custom built images, we [deploy a container image registry](https://docs.openshift.com/container-platform/3.11/install_config/registry/deploy_registry_existing_clusters.html) (aka the OpenShift Container Registry) using a user with cluster admin priviliges (e.g. `system:admin`):
 
 ```bash
 oc login -u system:admin
@@ -150,6 +150,8 @@ oc login -u developer -p developer
 docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)
 ```
 
+## Build and deploy a producer written in Go
+
 Now, we create an image stream for our example go producer, build and then push the image to our OpenShift container registry.
 
 ```bash
@@ -160,7 +162,7 @@ docker build \
 docker push $(minishift openshift registry)/$YOURPROJECT/producer-go:latest
 ```
 
-Next, let's create a deployment config:
+Next, let's create a deployment config that tells OpenShift to deploy a new version if it is pushed to the image stream that we've created before.
 
 ```bash
 oc apply -f examples/producer-go/deployment-config.yaml
