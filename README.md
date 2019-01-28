@@ -152,7 +152,7 @@ docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)
 
 ## Build and deploy a producer written in Go
 
-**NOTE:** This section is not finished as is the `producer-go` code.
+**NOTE:** This section is not finished as is the `producer-go`
 
 Now, we create an image stream for our example go producer, build and then push the image to our OpenShift container registry.
 

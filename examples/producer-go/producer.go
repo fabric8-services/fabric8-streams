@@ -1,5 +1,8 @@
 package main
 
+// This code is heavily based upon
+// https://github.com/Shopify/sarama/blob/e775ee1118ace9f992229a66fc2aba8c7cb7e848/examples/http_server/http_server.go
+
 import (
 	"crypto/tls"
 	"crypto/x509"
