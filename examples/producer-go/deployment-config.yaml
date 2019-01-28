@@ -9,11 +9,21 @@ spec:
         app: producer-go
     spec:
       containers:
-      - name: producer-go
-        image: "producer-go:latest"
-      - env:
-        - name: KAFKA_PEERS
-          value: 'fabric8-streams-cluster-kafka-bootstrap:9092'
+        - name: producer-go
+          image: "producer-go:latest"
+          env:
+            - name: KAFKA_PEERS
+              value: 'fabric8-streams-cluster-kafka-bootstrap:9092'
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
   replicas: 1
   triggers:
     # The ConfigChange trigger creates a new replication controller whenever
