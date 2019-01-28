@@ -12,8 +12,20 @@ spec:
         - name: producer-go
           image: "producer-go:latest"
           env:
-            - name: KAFKA_PEERS
+            - name: KAFKA_BROKERS
               value: 'fabric8-streams-cluster-kafka-bootstrap:9092'
+            - name: BIND_ADDR
+              value: '0.0.0.0:8080'
+            - name: VERBOSE
+              value: 'true'
+            - name: CERTIFICATE
+              value: ''
+            - name: CA
+              value: ''
+            - name: KEY
+              value: ''
+            - name: VERIFY_SSL_CERTIFICATE_CHAIN
+              value: 'false'
           livenessProbe:
             failureThreshold: 3
             httpGet:
