@@ -11,6 +11,9 @@ spec:
       containers:
       - name: producer-go
         image: "producer-go:latest"
+      - env:
+        - name: KAFKA_PEERS
+          value: 'fabric8-streams-cluster-kafka-bootstrap:9092'
   replicas: 1
   triggers:
     # The ConfigChange trigger creates a new replication controller whenever
