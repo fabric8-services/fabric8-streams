@@ -11,41 +11,6 @@ spec:
       containers:
         - name: producer-go
           image: "producer-go:latest"
-          env:
-            - name: KAFKA_BROKERS
-              value: 'fabric8-streams-cluster-kafka-bootstrap:9092'
-            - name: BIND_ADDR
-              value: '0.0.0.0:8080'
-            - name: VERBOSE
-              value: 'true'
-            - name: CERTIFICATE
-              value: ''
-            - name: CA
-              value: ''
-            - name: KEY
-              value: ''
-            - name: VERIFY_SSL_CERTIFICATE_CHAIN
-              value: 'false'
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 1
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 1
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
   replicas: 1
   triggers:
     # The ConfigChange trigger creates a new replication controller whenever
@@ -66,5 +31,5 @@ spec:
   paused: false 
   # Up to 2 revisions of the Docker image will be kept in the registry, in case
   # a rollback would be needed.
-  revisionHistoryLimit: 2
+  revisionHistoryLimit: 9
   minReadySeconds: 0
